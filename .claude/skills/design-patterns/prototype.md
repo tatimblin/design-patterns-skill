@@ -7,36 +7,27 @@
 - When the system should be independent of how its products are created, composed, and represented
 - When object configurations are limited to a few combinations and cloning presets is simpler than manual construction
 
-## 2. Pros/Cons
-**Pros:** Clone objects without coupling to their concrete classes; eliminate repeated initialization code; produce complex objects more conveniently via prebuilt prototypes; use a prototype registry to manage frequently used configurations
-**Cons:** Cloning objects with circular references is non-trivial; deep-copy vs. shallow-copy semantics must be carefully managed; classes with fields that prohibit copying (e.g., non-cloneable dependencies) require workarounds
-
-## 3. Relationships
-- **Often confused with:** **Factory Method** -- both avoid `new` with concrete types, but Prototype clones an existing instance rather than delegating creation to a subclass
-- **Combines well with:** **Abstract Factory** -- a factory can store a set of prototypes and return clones instead of constructing new objects; **Composite/Decorator** -- heavy composite or decorated trees can be duplicated efficiently via deep clone
-- **Alternative to:** **Factory Method / Abstract Factory** -- when the number of product variants is large, a prototype registry may replace an equivalent class hierarchy of factories
-
-## 4. Premature Use
+## 2. Premature Use
 - When object construction is already cheap and straightforward -- cloning adds indirection for no benefit
 - When the domain objects are simple value objects with no shared or nested references
 - When the language or framework already provides lightweight construction (e.g., data classes, record types)
 - When objects are rarely reused or duplicated during the application lifecycle
 
-## 5. Code Smell Triggers
+## 3. Code Smell Triggers
 - Large blocks of setup code repeated across similar object instantiations
 - Factory methods that differ only in field values assigned after construction
 - Subclass explosion driven solely by preset configurations rather than behavioral differences
 - Frequent serialization/deserialization used as a poor-man's cloning mechanism
 - Client code tightly coupled to concrete classes solely for construction purposes
 
-## 6. Anti-Pattern Warnings
+## 4. Anti-Pattern Warnings
 - Implementing only shallow copy when the object graph contains mutable shared references, leading to unintended side-effects
 - Storing prototypes in a global mutable registry without thread-safety, causing race conditions
 - Overriding clone without calling the parent clone, silently dropping inherited state
 - Using Prototype to avoid understanding object construction rather than to genuinely reduce cost or coupling
 - Neglecting to update the clone method when new fields are added to the class, resulting in silent data loss
 
-## 7. Structural Characteristics
+## 5. Structural Characteristics
 
 ### Participant Roles
 | Role | Description | Required |

@@ -16,22 +16,22 @@ description: >
 
 ## Knowledge Files
 
-- **Pattern files:** `design-patterns/<pattern-name>.md` -- one per GoF pattern (22 total), each with 7 sections: applicability, pros/cons, relationships, premature use, code smell triggers, anti-pattern warnings, structural characteristics
-- **Decision tree:** `design-patterns/decision-tree.md` -- maps code smells to candidate patterns with disambiguation guidance
-- **Scoring framework:** `design-patterns/scoring/dpvia-conformance.md` -- DPVIA-adapted conformance scoring with Mode A (recommendation) and Mode B (conformance)
-- **Repo path mapping:** `design-patterns/repo-map.md` -- maps pattern names to example code paths within each language's RefactoringGuru repo
+- **Pattern files:** `<pattern-name>.md` -- one per GoF pattern (22 total), each with 5 sections: applicability, premature use, code smell triggers, anti-pattern warnings, structural characteristics
+- **Decision tree:** `decision-tree.md` -- maps code smells to candidate patterns with disambiguation guidance
+- **Scoring framework:** `scoring/dpvia-conformance.md` -- DPVIA-adapted conformance scoring with Mode A (recommendation) and Mode B (conformance)
+- **Repo path mapping:** `repo-map.md` -- maps pattern names to example code paths within each language's RefactoringGuru repo
 
 ## Language-Specific Examples
 
-When you need a concrete code example of a pattern, look for it in `design-patterns/repos/<lang>/`. Use `design-patterns/repo-map.md` to find the path from a pattern name to the example files.
+When you need a concrete code example of a pattern, look for it in `repos/<lang>/`. Use `repo-map.md` to find the path from a pattern name to the example files.
 
 If the repo for the language you need is not there, fetch it:
 
 ```
-python3 design-patterns/fetch_repo.py <language>
+python3 .claude/skills/design-patterns/fetch_repo.py <language>
 ```
 
-This clones the matching RefactoringGuru repo into `design-patterns/repos/<lang>/`. The language argument is one of: typescript, python, java, cpp, php, csharp, swift, dart, ruby, go, kotlin, rust, delphi. For JavaScript codebases, use `typescript` (closest available).
+This clones the matching RefactoringGuru repo into `repos/<lang>/`. The language argument is one of: typescript, python, java, cpp, php, csharp, swift, dart, ruby, go, kotlin, rust, delphi. For JavaScript codebases, use `typescript` (closest available).
 
 If the fetch fails, proceed without the example. Never block analysis on a failed fetch.
 
@@ -44,14 +44,14 @@ Scan code for structural issues and recommend or validate design patterns.
 1. Read the target files
 2. Scan for structural hallmarks of known patterns (e.g., clone methods, subscriber lists, delegation to composed objects)
 3. **If a pattern is already present:**
-   - Read the pattern's knowledge file (`design-patterns/<pattern>.md`)
-   - Read `design-patterns/scoring/dpvia-conformance.md`
-   - Apply Mode B (conformance scoring) using Section 7 structural characteristics
+   - Read the pattern's knowledge file (`<pattern>.md`)
+   - Read `scoring/dpvia-conformance.md`
+   - Apply Mode B (conformance scoring) using Section 5 structural characteristics
    - Apply Phase 3 (code context verification) for any violations
    - Look up the language-specific example (see Language-Specific Examples) and compare against the canonical implementation
    - Report: pattern name, conformance percentage, verdict, any violations or intentional deviations
 4. **If no pattern is found:**
-   - Read `design-patterns/decision-tree.md`
+   - Read `decision-tree.md`
    - Identify code smells and match to candidate patterns using the decision tree
    - For each candidate, read its knowledge file and apply Mode A (recommendation scoring)
    - Report: the smell, its location, the recommended pattern (highest scoring), score, and rationale
@@ -62,26 +62,26 @@ Scan code for structural issues and recommend or validate design patterns.
 Assess whether a specific pattern fits the current code.
 
 1. Read the target code
-2. Read the pattern's knowledge file (`design-patterns/<pattern-name>.md`)
-3. Read `design-patterns/scoring/dpvia-conformance.md`
+2. Read the pattern's knowledge file (`<pattern-name>.md`)
+3. Read `scoring/dpvia-conformance.md`
 4. **If the code already implements the pattern:**
-   - Apply Mode B (conformance scoring) against Section 7 structural characteristics
+   - Apply Mode B (conformance scoring) against Section 5 structural characteristics
    - Apply Phase 3 (code context verification) for any violations
    - Look up the language-specific example (see Language-Specific Examples) and compare against the canonical implementation
    - Verdict with percentage: **correctly applied** (90-100%), **deformed** (60-89%), or **wrong pattern** (below 60%)
    - If wrong pattern, use decision tree to suggest an alternative
 5. **If the code does not implement the pattern:**
-   - Apply Mode A (recommendation scoring) using Sections 1, 4, 5, 6
+   - Apply Mode A (recommendation scoring) using Sections 1, 2, 3, 4
    - Verdict: **good fit** (100%), **good fit with concern** (75%), **weak fit** (50%), or **poor fit** (25% or below)
-   - Check Section 4 (premature use) -- if conditions apply, note as **premature**
+   - Check Section 2 (premature use) -- if conditions apply, note as **premature**
 
 ### implement <pattern-name>
 
 Apply a specific design pattern to existing code.
 
 1. Read the target code
-2. Read the pattern's knowledge file (`design-patterns/<pattern-name>.md`)
-3. Read `design-patterns/scoring/dpvia-conformance.md`
+2. Read the pattern's knowledge file (`<pattern-name>.md`)
+3. Read `scoring/dpvia-conformance.md`
 4. Look up the language-specific example (see Language-Specific Examples) and use it as a concrete reference for idiomatic structure
 5. **Pre-implementation check:** Apply Mode A (recommendation scoring)
    - If score <= 50%, warn the user and explain why before proceeding

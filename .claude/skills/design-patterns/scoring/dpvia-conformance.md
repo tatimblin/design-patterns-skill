@@ -8,10 +8,10 @@ Use when recommending a pattern for code that doesn't have one. For each candida
 
 | # | Check | Source Section | Pass (1) | Fail (0) |
 |---|-------|---------------|----------|----------|
-| 1 | Code has smells from this pattern's triggers | Section 5: Code Smell Triggers | 1+ smells match | None match |
+| 1 | Code has smells from this pattern's triggers | Section 3: Code Smell Triggers | 1+ smells match | None match |
 | 2 | Problem matches applicability | Section 1: Applicability | 1+ items match | No match |
-| 3 | No premature use conditions apply | Section 4: Premature Use | None apply | 1+ apply |
-| 4 | No anti-pattern warnings for proposed refactor | Section 6: Anti-Pattern Warnings | None match | 1+ match |
+| 3 | No premature use conditions apply | Section 2: Premature Use | None apply | 1+ apply |
+| 4 | No anti-pattern warnings for proposed refactor | Section 4: Anti-Pattern Warnings | None match | 1+ match |
 
 **Score:** `(passes / 4) * 100`
 
@@ -24,11 +24,11 @@ Use when recommending a pattern for code that doesn't have one. For each candida
 
 ## Mode B: Conformance Scoring
 
-Use when assessing code that already implements (or attempts to implement) a pattern. Compare against the pattern's Section 7 (Structural Characteristics) using Hamming distance.
+Use when assessing code that already implements (or attempts to implement) a pattern. Compare against the pattern's Section 5 (Structural Characteristics) using Hamming distance.
 
 ### Procedure
 
-1. Read the pattern's **Participant Roles** and **Relationships** tables from Section 7
+1. Read the pattern's **Participant Roles** and **Relationships** tables from Section 5
 2. Build the **expected vector**: 1 for each characteristic listed in the tables
 3. Build the **actual vector**: scan the code and mark each characteristic as present (1) or absent (0)
 4. Compute Hamming distance and conformance score
