@@ -19,6 +19,21 @@ description: >
 - **Pattern files:** `design-patterns/<pattern-name>.md` -- one per GoF pattern (22 total), each with 7 sections: applicability, pros/cons, relationships, premature use, code smell triggers, anti-pattern warnings, structural characteristics
 - **Decision tree:** `design-patterns/decision-tree.md` -- maps code smells to candidate patterns with disambiguation guidance
 - **Scoring framework:** `design-patterns/scoring/dpvia-conformance.md` -- DPVIA-adapted conformance scoring with Mode A (recommendation) and Mode B (conformance)
+- **Repo path mapping:** `design-patterns/repo-map.md` -- maps pattern names to example code paths within each language's RefactoringGuru repo
+
+## Language-Specific Examples
+
+When you need a concrete code example of a pattern, look for it in `design-patterns/repos/<lang>/`. Use `design-patterns/repo-map.md` to find the path from a pattern name to the example files.
+
+If the repo for the language you need is not there, fetch it:
+
+```
+python3 design-patterns/fetch_repo.py <language>
+```
+
+This clones the matching RefactoringGuru repo into `design-patterns/repos/<lang>/`. The language argument is one of: typescript, python, java, cpp, php, csharp, swift, dart, ruby, go, kotlin, rust, delphi. For JavaScript codebases, use `typescript` (closest available).
+
+If the fetch fails, proceed without the example. Never block analysis on a failed fetch.
 
 ## Commands
 
@@ -33,6 +48,7 @@ Scan code for structural issues and recommend or validate design patterns.
    - Read `design-patterns/scoring/dpvia-conformance.md`
    - Apply Mode B (conformance scoring) using Section 7 structural characteristics
    - Apply Phase 3 (code context verification) for any violations
+   - Look up the language-specific example (see Language-Specific Examples) and compare against the canonical implementation
    - Report: pattern name, conformance percentage, verdict, any violations or intentional deviations
 4. **If no pattern is found:**
    - Read `design-patterns/decision-tree.md`
@@ -51,6 +67,7 @@ Assess whether a specific pattern fits the current code.
 4. **If the code already implements the pattern:**
    - Apply Mode B (conformance scoring) against Section 7 structural characteristics
    - Apply Phase 3 (code context verification) for any violations
+   - Look up the language-specific example (see Language-Specific Examples) and compare against the canonical implementation
    - Verdict with percentage: **correctly applied** (90-100%), **deformed** (60-89%), or **wrong pattern** (below 60%)
    - If wrong pattern, use decision tree to suggest an alternative
 5. **If the code does not implement the pattern:**
@@ -65,13 +82,14 @@ Apply a specific design pattern to existing code.
 1. Read the target code
 2. Read the pattern's knowledge file (`design-patterns/<pattern-name>.md`)
 3. Read `design-patterns/scoring/dpvia-conformance.md`
-4. **Pre-implementation check:** Apply Mode A (recommendation scoring)
+4. Look up the language-specific example (see Language-Specific Examples) and use it as a concrete reference for idiomatic structure
+5. **Pre-implementation check:** Apply Mode A (recommendation scoring)
    - If score <= 50%, warn the user and explain why before proceeding
-5. Refactor the code to apply the pattern, preserving existing behavior
-6. **Post-implementation check:** Apply Mode B (conformance scoring)
+6. Refactor the code to apply the pattern, preserving existing behavior. Follow the structure from the language-specific example where applicable.
+7. **Post-implementation check:** Apply Mode B (conformance scoring)
    - Target: 90%+ conformance
    - If below 90%, identify missing structural elements and fix
-7. Explain what changed and why, including the conformance score
+8. Explain what changed and why, including the conformance score
 
 ## Examples
 
