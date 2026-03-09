@@ -91,6 +91,37 @@ Apply a specific design pattern to existing code.
    - If below 90%, identify missing structural elements and fix
 8. Explain what changed and why, including the conformance score
 
+### advise <context>
+
+Quickly surface 1–3 pattern recommendations without full DPVIA analysis. Designed for sub-agent use.
+
+`<context>` is either a file path or a prose description of the problem being designed.
+
+1. Determine input mode:
+   - If `<context>` is a valid file path, read the file (**file mode**)
+   - Otherwise, treat as a prose description (**prose mode**)
+2. Read `decision-tree.md`
+3. Identify up to 5 candidate patterns from the decision tree:
+   - **File mode:** scan for structural hallmarks matching Section 3 (code smell triggers) in each pattern file
+   - **Prose mode:** match stated intent against Section 1 (applicability) in each pattern file
+4. For each candidate, read its knowledge file and apply partial Mode A scoring:
+   - **File mode:** evaluate all 4 criteria (Sections 1–4)
+   - **Prose mode:** evaluate Sections 1 & 2 only; compute score over available criteria
+5. Keep top 1–3 candidates scoring above 25%
+6. **If recommendations found:** emit Pattern Radar (name, score, one-line rationale per entry), then suggest `design-patterns evaluate <pattern-name>` for full scoring
+7. **If no candidates above 25%:** emit "No strong pattern matches found."
+
+Do NOT: fetch language repos, run Mode B conformance scoring, apply Phase 3 verification, or read all 22 pattern files.
+
+Output format:
+```
+Pattern Radar:
+• <PatternName> (Mode A: <score>%) — <one-line rationale>
+• <PatternName> (Mode A: <score>%) — <one-line rationale>
+
+For full scoring: `design-patterns evaluate <pattern-name> <file>`
+```
+
 ## Examples
 
 The `examples/` directory contains 9 mini-apps covering 8 GoF patterns for testing. Each has `src/` and `README.md`. Answer key at `examples/answer.md`.
